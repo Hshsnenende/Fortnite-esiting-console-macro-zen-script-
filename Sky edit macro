@@ -1,0 +1,95 @@
+define Input_Interval = 25; // Input interval for new gen consoles
+int EDIT_BUTTON;
+int SELECT_BUTTON;
+int CONFIRM_BUTTON;
+int RESET_BUTTON;
+
+init {
+    // Define the buttons for Cronus Zen (PS4 Controller)
+    EDIT_BUTTON = PS4_R3;
+    SELECT_BUTTON = PS4_L3;
+    CONFIRM_BUTTON = PS4_R2;
+    RESET_BUTTON = PS4_R3;
+}
+
+main {
+    // Building and Editing Controls
+    if(get_val(PS4_RIGHT)) {
+        // Automated edit selection loop
+        combo_run(EDIT_LOOP);
+    } else {
+        combo_stop(EDIT_LOOP);
+    }
+    
+    // Instant Building for Structures
+    if(event_press(PS4_R1)) {
+        combo_run(INSTANT_FLOOR_BUILD);
+    }
+
+    if(event_press(PS4_R2)) {
+        combo_run(INSTANT_WALL_BUILD);
+    }
+
+    if(event_press(PS4_L2)) {
+        combo_run(INSTANT_RAMP_BUILD);
+    }
+
+    if(event_press(PS4_DOWN)) {
+        combo_run(INSTANT_CONE_BUILD);
+    }
+
+    // Anti-Recoil Functionality
+    combo_run(ANTI_RECOIL);
+}
+
+combo EDIT_LOOP {
+    // Edit, Select, Confirm, Reset loop
+    set_val(EDIT_BUTTON, 100); // Press the edit button
+    wait(10); // Delay for edit selection
+
+    set_val(SELECT_BUTTON, 100); // Press the select button
+    wait(15); // Delay for selection
+
+    set_val(CONFIRM_BUTTON, 100); // Press the confirm button
+    wait(20); // Delay for confirmation
+
+    set_val(RESET_BUTTON, 100); // Press the reset button
+    wait(25); // Delay before next edit selection
+
+    wait(10); // Delay before repeating the loop
+}
+
+combo INSTANT_FLOOR_BUILD {
+    set_val(PS4_R1, 100); // Press the button for building floor
+    wait(25); // Delay for building placement
+    set_val(PS4_R1, 0); // Release the building button
+}
+
+combo INSTANT_WALL_BUILD {
+    set_val(PS4_R2, 100); // Press the button for building wall
+    wait(25); // Delay for building placement
+    set_val(PS4_R2, 0); // Release the building button
+}
+
+combo INSTANT_RAMP_BUILD {
+    set_val(PS4_L2, 100); // Press the button for building ramp
+    wait(25); // Delay for building placement
+    set_val(PS4_L2, 0); // Release the building button
+}
+
+combo INSTANT_CONE_BUILD {
+    set_val(PS4_DOWN, 100); // Press the button for building cone
+    wait(25); // Delay for building placement
+    set_val(PS4_DOWN, 0); // Release the building button
+}
+
+combo ANTI_RECOIL {
+    int recoil_value = 25; // Adjust the recoil compensation value as needed
+
+    // Define the anti-recoil movements for each weapon
+    if(get_val(PS4_R2)) {
+        // Recoil compensation for shooting with the R2 button (adjust as needed)
+        // Insert your anti-recoil code here
+    }
+    // Add additional conditions for other weapons as required
+}
