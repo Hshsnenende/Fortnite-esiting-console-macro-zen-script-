@@ -1,0 +1,74 @@
+define Input_Interval = 10; // Input interval set to 10ms for faster response
+
+int EDIT_BUTTON = PS4_R3;
+int SELECT_BUTTON = PS4_L3;
+int CONFIRM_BUTTON = PS4_R2;
+int RESET_BUTTON = PS4_R3;
+
+main {
+    // Building and Editing Controls
+    if(get_val(PS4_RIGHT)) {
+        // Automated edit selection loop
+        combo_run(EDIT_LOOP);
+    }
+
+    // Instant Building for Structures
+    if(event_press(PS4_R1)) {
+        combo_run(INSTANT_FLOOR_BUILD);
+    }
+
+    if(event_press(PS4_R2)) {
+        combo_run(INSTANT_WALL_BUILD);
+    }
+
+    if(event_press(PS4_L2)) {
+        combo_run(INSTANT_RAMP_BUILD);
+    }
+
+    if(event_press(PS4_DOWN)) {
+        combo_run(INSTANT_CONE_BUILD);
+    }
+}
+
+combo EDIT_LOOP {
+    set_val(EDIT_BUTTON, 50); // Slight hold for EDIT_BUTTON
+    wait(5); // Reduced delay for faster response
+
+    set_val(SELECT_BUTTON, 100); // SELECT_BUTTON
+    wait(10); // Reduced delay for faster response
+
+    set_val(CONFIRM_BUTTON, 100); // CONFIRM_BUTTON
+    wait(15); // Reduced delay for faster response
+
+    set_val(SELECT_BUTTON, 100); // SELECT_BUTTON again
+    wait(20); // Reduced delay for faster response
+
+    set_val(RESET_BUTTON, 50); // Slight hold for RESET_BUTTON
+    wait(25); // Reduced delay for faster response
+
+    wait(5); // Reduced overall delay
+}
+
+combo INSTANT_FLOOR_BUILD {
+    set_val(PS4_R1, 100);
+    wait(10); // Reduced delay for faster response
+    set_val(PS4_R1, 0);
+}
+
+combo INSTANT_WALL_BUILD {
+    set_val(PS4_R2, 100);
+    wait(10); // Reduced delay for faster response
+    set_val(PS4_R2, 0);
+}
+
+combo INSTANT_RAMP_BUILD {
+    set_val(PS4_L2, 100);
+    wait(10); // Reduced delay for faster response
+    set_val(PS4_L2, 0);
+}
+
+combo INSTANT_CONE_BUILD {
+    set_val(PS4_DOWN, 100);
+    wait(10); // Reduced delay for faster response
+    set_val(PS4_DOWN, 0);
+}
