@@ -1,0 +1,44 @@
+int ScriptActive;
+
+combo TOGGLE_EDIT_SELECT_CONFIRM_LOOP {
+    if (event_press(PS4_RIGHT)) {
+        ScriptActive = 1; // Activate the script when right arrow is pressed
+        combo_run(EDIT_SELECT_CONFIRM_LOOP); // Start the combo script
+    }
+    if (event_release(PS4_RIGHT)) {
+        ScriptActive = 0; // Deactivate the script when right arrow is released
+    }
+}
+
+combo EDIT_SELECT_CONFIRM_LOOP {
+    // Initialize timer variables
+    int Timer_Edit = 0;
+    int Timer_Select = 0;
+    int Timer_Confirm = 0;
+    
+    do {
+        // Edit
+        set_val(PS4_R3, 50); // Slight hold for EDIT_BUTTON
+        Timer_Edit = get_ptime();
+        while(get_val(PS4_R3) > 0 && get_ptime() - Timer_Edit < 500) { } // Hold for 500ms or until R3 is released
+
+        // Select
+        set_val(PS4_L3, 100); // SELECT_BUTTON
+        Timer_Select = get_ptime();
+        while(get_val(PS4_L3) > 0 && get_ptime() - Timer_Select < 100) { } // Hold for 100ms or until L3 is released
+
+        // Confirm
+        set_val(PS4_R2, 100); // CONFIRM_BUTTON
+        Timer_Confirm = get_ptime();
+        while(get_val(PS4_R2) > 0 && get_ptime() - Timer_Confirm < 150) { } // Hold for 150ms or until R2 is released
+
+        // Select again
+        set_val(PS4_L3, 100); // SELECT_BUTTON
+        wait(20); // Delay for smoother execution
+
+        // Confirm again
+        set_val(PS4_R2, 100); // CONFIRM_BUTTON
+        wait(15); // Reduced delay for faster response
+
+    } while (ScriptActive); // Loop while script is active
+}
