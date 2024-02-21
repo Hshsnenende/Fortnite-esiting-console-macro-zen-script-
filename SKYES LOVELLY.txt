@@ -1,0 +1,41 @@
+int ScriptActive;
+
+combo TOGGLE_EDIT_SELECT_CONFIRM_LOOP {
+    if (event_press(PS4_RIGHT)) {
+        ScriptActive = 1; // Activate the script when right arrow is pressed
+        combo_run(EDIT_SELECT_CONFIRM_LOOP); // Start the combo script
+    }
+    if (event_release(PS4_RIGHT)) {
+        ScriptActive = 0; // Deactivate the script when right arrow is released
+    }
+}
+
+combo EDIT_SELECT_CONFIRM_LOOP {
+    do {
+        // Edit
+        set_val(PS4_R3, 50); // Slight hold for EDIT_BUTTON
+        wait(370); // Hold for 370ms
+        set_val(PS4_R3, 0); // Release EDIT_BUTTON
+
+        // Select
+        wait(10); // Delay for smoother execution
+        set_val(PS4_L3, 100); // SELECT_BUTTON
+        wait(10); // Reduced delay for faster response
+
+        // Confirm
+        wait(10); // Delay for smoother execution
+        set_val(PS4_R2, 100); // CONFIRM_BUTTON
+        wait(15); // Reduced delay for faster response
+
+        // Select again
+        wait(10); // Delay for smoother execution
+        set_val(PS4_L3, 100); // SELECT_BUTTON
+        wait(20); // Reduced delay for faster response
+
+        // Confirm again
+        wait(10); // Delay for smoother execution
+        set_val(PS4_R2, 100); // CONFIRM_BUTTON
+        wait(15); // Reduced delay for faster response
+
+    } while (ScriptActive); // Loop while script is active
+}
